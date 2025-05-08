@@ -1,0 +1,459 @@
+#!/bin/bash
+scenario_command() {
+  clear
+  echo "Scenario: AWS Olympics - Terminal Maze"
+  sleep 2
+  echo ""
+  echo "You are a team of AWS engineers participating in The AWS Olympics."
+  sleep 2
+  echo "Your first challenge is to navigate through a virtual terminal maze."
+  sleep 2
+  echo "To proceed, you must answer a series of questions related to Linux,"
+  sleep 2
+  echo "system administration, and general technical knowledge."
+  sleep 2
+  echo ""
+  echo "Instructions:"
+  sleep 2
+  echo "- You will be presented with 50 questions in random orders."
+  sleep 2
+  echo "- Answer each question accurately to progress."
+  sleep 2
+  echo "- Most of your answers will be contained within the 'Lex's World' directory located in /"
+  sleep 2
+  echo "- There will be a shop where you can buy clues to a future question."
+  sleep 2
+  echo "- Some questions require exploration of virtual files and directories."
+  sleep 2
+  echo "- Pay close attention to hints and clues provided within the questions."
+  sleep 2
+  echo "- Teamwork and communication are essential for success."
+  sleep 2
+  echo "- Your team will be timed, and accuracy matters."
+  sleep 2
+  echo ""
+  echo "Objective:"
+  sleep 2
+  echo "Successfully answer all 50 questions to find the passkey and complete the maze."
+  sleep 2
+  echo ""
+  sleep 2
+  echo "Good luck, and may the best team win!"
+  sleep 2
+  echo ""
+  echo "Press Enter to start the Maze"
+  read -r dummy
+}
+
+# Example usage (you can call this function from other parts of your script):
+# scenario_command
+
+#Test
+scenario_command
+
+clear
+
+
+# ANSI escape codes for text formatting
+BOLD=$(tput bold)
+UNDERLINE=$(tput smul)
+RESET=$(tput sgr0)
+# Text Colors
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+WHITE=$(tput setaf 7)
+DEFAULT=$(tput setaf 9) #Default color.
+
+# Background Colors
+BG_RED=$(tput setab 1)
+BG_GREEN=$(tput setab 2)
+BG_YELLOW=$(tput setab 3)
+BG_BLUE=$(tput setab 4)
+BG_MAGENTA=$(tput setab 5)
+BG_CYAN=$(tput setab 6)
+BG_WHITE=$(tput setab 7)
+BG_DEFAULT=$(tput setab 9)
+# Welcome message with formatting
+#!/bin/bash
+
+# Welcome message with figlet
+figlet -f slant "AWS Olympics" | sed "s/./${CYAN}&${RESET}/g"
+sleep 2
+echo ""
+toilet -f small -F metal "Terminal Maze"
+sleep 2
+# Loading prompt
+echo ""
+
+# ANSI escape codes for cursor control and color
+CLEAR_LINE=$(tput el)
+MOVE_LEFT=$(tput cub 1)
+
+# Array of rotating characters (circular, with smoother animation)
+ROTATING_CHARS=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏") # Unicode braille patterns
+
+# Function to display rotating icon
+show_rotating_icon() {
+  local i=0
+  while true; do
+    echo -ne "${CYAN}${ROTATING_CHARS[$i]}${RESET}${CLEAR_LINE}${MOVE_LEFT}"
+    i=$(( (i + 1) % ${#ROTATING_CHARS[@]} ))
+    sleep 0.1 # Adjust speed as needed
+  done
+}
+
+# Example usage
+echo "Loading Questions... "
+show_rotating_icon & # Run in background
+
+# Simulate a long-running task
+sleep 7
+
+# Stop the rotating icon and clear the line
+kill %1 > /dev/null 2>&1
+echo -ne "${CLEAR_LINE}"
+
+echo "Loading complete!"
+echo ""
+
+# Ask for team name
+read -p "Enter your team name: " team_name
+progress_file="/etc/.game/Progress/ProgressOf${team_name}"
+
+# Initialize progress file
+echo "Team Name: $team_name" > "$progress_file"
+echo "Correct Answers: 0" >> "$progress_file"
+
+
+
+# Questions and Answers
+declare -A questions=(
+  ["1. Where is the hidden file 'Lex' in?"]="Lex's Home"
+  ["2. Chrissy's login credentials are needed to access a top-secret project. What is the password?"]="mybadchrisiranoutofideas"
+  ["3. Guess the number that is in between Daniel's & Zhao's Birthdays"]="8"
+  ["4. Decode the following: 'V1hwS01HTkdiSFJpUjNSb1ZUQktObGxVU25OaFZuQklZVEprYTAxdGFITlpNakZXV2pGd1NHSkhkRXBUUjNneVdkWk9RMkp0U2pWUgpWRnBNVVZjNE9VTm5QVDBLCg=='?"]="skibidi skibidi where did you go :("
+  ["5. Go into Lex's Bedroom, What is the most interesting item in there?"]="Cat Plushie"
+  ["6. What was the date of the CloudFormation Lab?"]="February 27th"
+  ["7. Find Lex's secret warehouse, whose drums is stored in it?"]="Sam"
+  ["8. What's the name of the 100th song that is stored in the Music List with Lex's Bedroom?"]="Cinnamon Girl"
+  ["9. According to Lex's Diary, How much is \$2 worth?"]="A Lot"
+  ["10. What is the content of the file that is in Lex's war room?"]="Do You Want To Build A Snow Man?"
+  ["11. Within chrissy's home directory, What is the content of the file that is hidden in a hidden directory that is hidden in a hidden directory? (Find his password if you haven't)"]="Aw Shucks"
+  ["12. What is the name of the hidden directory in your team's home directory?"]="NothingHere"
+  ["13. What is the '#1' thing we hate in our class?"]="Testout"
+  ["14. What is in Lex's PencilCase?"]="LedPencil & Sad Hamster"
+  ["15. What is something Lex has stolen from Mr Valdez that is stored within a secret location of his?"]="WiFi Adapter"
+  ["16. What item is within Lex's Toolkit that allows for storing data?"]="S3"
+  ["17. What game is within Lex's Stash of Games that he has recently played? (Hint: Check the Content of the games for the dates)"]="MyHelloKittyCafe"
+  ["18. Within Lex's Hobbies, what is the name of the hobby he frequently does the most?"]="ReadingManhwas"
+  ["19. What illegal chemical does Lex have within his Secret Lab?"]="Lexium"
+  ["20. Within Lex's hobbies, what sport has he recently played?"]="Volleyball"
+  ["21. What is the only Linux Based tool within Lex's Toolkit?"]="Hydra"
+  ["22. What is the the name of the famous River within Lexourne?"]="Lexus River"
+  ["23. What Restaurant did Lex visit on October 17th with Mini Lex?"]="Eleven Madison Park"
+  ["24. What OS does Lex use for hacking?"]="Linux"
+  ["25. What is the Greatest nation in Lex's world?"]="Lexourne"
+  ["26. What are the top three tourist spots in Lex's World? (Separate with commas)"]="Divine Seas, Crystal Kingdom, Treacherous Treetop"
+  ["27. What is the number 1 company in Lexourne?"]="Lemaxon"
+  ["28. Which nation is Lex's home located in?"]="Lexourne"
+  ["29. Who is Lex's neighbor?"]="Lexy"
+  ["30. What is the name of the famous island in Lexourne?"]="Lextorn"
+  ["31. What is the name of the famous castle in Lexourne?"]="Leuschwansteix"
+  ["32. Which Neighborhood does Lex's House reside in ?"]="Lexestein"
+  ["33. What is the one item that Lex is missing from his garage?"]="Lexrari"
+  ["34. How many countries are there within Lex's World?"]="6"
+  ["35. What's the number 1 country within Lex's World?"]="Lexourne"
+  ["36. Whose homework is left within Lex's bedroom?"]="Mini Lex"
+  ["37. What did Mini Lex get recently on his test?"]="99.5"
+  ["38. What is Lex's profession?"]="Event Manager"
+  ["39. What date was Mini Lex born according to Lex's Diary?"]="August 17th"
+  ["40. What school does Mini Lex go to?"]="Lexestein High School"
+  ["41. What is the '#1' product trending in Lex's World?"]="Lex's RT"
+  ["42. What is the famous theater in Lex's World located within Lexourne?"]="Lexollo Theater"
+  ["43. According to Lex's Diary, Who does he do coding with?"]="Mini Lex"
+  ["44. Within DataWand, which neighborhood contains Lex's missing Lexrari? (Check the content of the files)"]="TheNexus"
+  ["45. Which nation holds LexaEnergy's HQ Location?"]="DevvhIsland"
+  ["46. What item is missing in Lexy's Generator Room?"]="Sensors"
+  ["47. What item is missing in Lexon's Generator Room?"]="Transformers"
+  ["48. What item is missing in Lexar's Generator Room?"]="Fans"
+  ["49. What's the name of this event?"]="The AWS Olympics"
+  ["50. What's the name of this game?"]="Terminal Maze"
+)
+
+# Clues
+declare -A clues=(
+  ["1"]="Lex keeps important files close to home"
+  ["2"]="Look in his home within NachoLand."
+  ["3"]="Daniel's Birthday is November 4th and Zhao's Birthday is November 15th."
+  ["4"]="Base64 is your friend. Maybe keep going till you get the answer?"
+  ["5"]="Lex has a soft spot for cute things."
+  ["6"]="Check google classroom."
+  ["7"]="Lex likes to keep his hobbies separate."
+  ["8"]="just check the music list"
+  ["9"]="Lex has a unique perspective on value."
+  ["10"]="Lex likes to prepare for the cold."
+  ["11"]="Chrissy hides things well, but not well enough. His password is required for this question"
+  ["12"]="Sometimes, nothing is something."
+  ["13"]="It's a common complaint."
+  ["14"]="Lex likes to be prepared."
+  ["15"]="Lex has a knack for acquiring things."
+  ["16"]="Lex likes to keep his data safe."
+  ["17"]="Lex likes to keep track of his gaming history."
+  ["18"]="Lex enjoys reading."
+  ["19"]="Lex is a chemist in his spare time."
+  ["20"]="Lex enjoys playing sports."
+  ["21"]="Lex likes to use linux tools."
+  ["22"]="It's a local landmark."
+  ["23"]="Lex has expensive taste."
+  ["24"]="It's a popular OS for hacking."
+  ["25"]="Lex is very patriotic."
+  ["26"]="Lexourne is a popular tourist destination."
+  ["27"]="Lexourne is a very wealthy city."
+  ["28"]="Lex lives in the capital."
+  ["29"]="Lex's neighbor is a close friend."
+  ["30"]="It's a popular tourist destination."
+  ["31"]="It's a popular tourist destination."
+  ["32"]="Lex lives in a fancy neighborhood."
+  ["33"]="Lex likes his cars."
+  ["34"]="Lexourne is a very large country."
+  ["35"]="Lexourne is a very powerful country."
+  ["36"]="Lex's son is very smart."
+  ["37"]="Mini Lex is a great student."
+  ["38"]="Lex is a very busy man."
+  ["39"]="Mini Lex is very young."
+  ["40"]="Mini Lex goes to a good school."
+  ["41"]="Lex has a lot of products."
+  ["42"]="Lexourne has many cultural attractions."
+  ["43"]="Lex and Mini Lex are very close."
+  ["44"]="Lex's Lexrari is in a bad place."
+  ["45"]="LexaEnergy is a very powerful company and is listed in the topcompanies."
+  ["46"]="Lexy needs sensors."
+  ["47"]="Lexon needs transformers."
+  ["48"]="Lexar needs fans."
+  ["49"]="It's a competition."
+  ["50"]="It's a text based game."
+)
+
+# Game Variables
+points=0
+streak=0
+asked_questions=() # Array to store already asked question keys
+correct_answers=0
+points_file="/etc/.game/Points/${team_name}"
+
+
+
+
+# Function to load and save points within the progress file
+load_points() {
+    if [[ -f "points_file" ]]; then
+        while IFS= read -r line; do
+            if [[ "$line" =~ ^points=([0-9]+)$ ]]; then
+                points="${BASH_REMATCH[1]}"
+                return
+            fi
+        done
+    fi
+}
+
+save_points() {
+    local temp_file="$points"
+    if [[ -f "$points_file" ]]; then
+        while IFS= read -r line; do
+            if [[ "$line" =~ ^points= ]]; then
+                echo "points=$points" >> "$temp_file"
+            else
+                echo "$line" >> "$temp_file"
+            fi
+        done < "$points_file"
+    else
+        echo "points=$points" >> "$temp_file"
+    fi
+    mv "$temp_file" "$points_file"
+}
+check_game_completion() {
+  if [[ $correct_answers -eq 50 ]]; then
+    clear
+    toilet -f small -F metal "                              Congrats!"
+    echo ""
+    toilet -f term -F metal "                                       Passkey: Game1Of4Finished!!!"
+    date
+    toilet -f term -F metal "							    Take this to the Host to show proof of your completion"
+  fi
+}
+# Leaderboard file path
+leaderboard_file="/etc/.game/leaderboard.txt" # Change this as needed
+
+# Function to update the leaderboard file
+update_leaderboard() {
+ local temp_file="${leaderboard_file}.tmp"
+  local found=0
+
+  if [[ -f "$leaderboard_file" ]]; then
+    while IFS= read -r line; do
+      local team=$(echo "$line" | cut -d ':' -f 1)
+      local score=$(echo "$line" | cut -d ':' -f 2)
+
+      if [[ "$team" == "$team_name" ]]; then
+        echo "$team_name:$correct_answers" >> "$temp_file"
+        found=1
+      else
+        echo "$line" >> "$temp_file"
+      fi
+    done < "$leaderboard_file"
+
+    if [[ $found -eq 0 ]]; then
+      echo "$team_name:$correct_answers" >> "$temp_file"
+    fi
+    mv "$temp_file" "$leaderboard_file"
+  else
+    echo "$team_name:$correct_answers" > "$leaderboard_file"
+  fi
+   chmod a+w "$leaderboard_file"  
+}
+
+# Function to display the leaderboard
+display_leaderboard() {
+  if [[ -f "$leaderboard_file" ]]; then
+    local teams_scores=($(sort -rn -t ':' -k 2 "$leaderboard_file")) # sort by score
+    toilet -f term -F metal "Leaderboard:"
+    if [[ ${#teams_scores[@]} -eq 0 ]]; then
+      echo "No teams found."
+    else
+      for team_score in "${teams_scores[@]}"; do
+        local team=$(echo "$team_score" | cut -d ':' -f 1)
+        local score=$(echo "$team_score" | cut -d ':' -f 2)
+        echo "$team: $score"
+      done
+    fi
+  else
+    echo "No leaderboard data available."
+  fi
+}
+
+# Load points
+load_points
+# Function to generate a random question and get the answer
+generate_random_question() {
+local -a keys=("${!questions[@]}")
+  local random_index=$((RANDOM % ${#keys[@]}))
+  local question="${keys[$random_index]}"
+  local answer="${questions[$question]}"
+  local question_number=$((random_index + 1)) #Get the question number
+
+   while true; do
+    random_index=$((RANDOM % ${#keys[@]}))
+    question="${keys[$random_index]}"
+
+    # Check if the question has already been asked
+    if [[ ! " ${asked_questions[@]} " =~ " ${question} " ]]; then
+      break # Exit the loop if it's a new question
+    fi
+  done
+
+  answer="${questions[$question]}"
+  question_number=$((random_index + 1)) # Get the question number
+
+  echo "$question"
+  read -p "Your answer: " user_answer
+
+  if [[ "$(echo "$user_answer" | tr '[:upper:]' '[:lower:]')" == "$(echo "$answer" | tr '[:upper:]' '[:lower:]')" ]]; then
+    echo "Correct!"
+    correct_answers=$((correct_answers + 1))
+    streak=$((streak + 1))
+    points=$((points + streak)) # Increase points based on streak
+    echo "You earned $streak points! Total points: $points"
+    save_points
+    update_leaderboard
+    # Add the asked question to the array
+    asked_questions+=("$question")
+  else
+    echo "Incorrect"
+    streak=0 # Reset streak on incorrect answer
+    update_leaderboard
+  fi
+   echo "Correct Answers: $correct_answers" > "$progress_file"
+   check_game_completion #Check for completion of the game after every question
+}
+
+
+
+# Function to display the clue shop
+display_clue_shop() {
+  echo "Clue Shop (Your points: $points):"
+  echo "Enter question number for a hint (50 points)"
+  read -p "Question number (or 'b' to go back): " choice
+    case $choice in
+        b)
+            ;;
+        *)
+          if [[ "$choice" =~ ^[0-9]+$ ]]; then #check if input is number
+            if [[ $points -ge 50 ]]; then
+              if [[ ${clues[$choice]} ]]; then
+                points=$((points - 50))
+                echo "Hint: ${clues[$choice]}"
+                save_points
+              else
+                echo "Invalid question number."
+              fi
+            else
+              echo "Insufficient points."
+            fi
+          else
+            echo "Invalid input."
+          fi
+          ;;
+    esac
+}
+
+# Function to display the user's progress
+display_progress() {
+  echo "Points: $points"
+  echo "Current Streak: $streak"
+  cat $progress_file
+}
+
+# Main loop to keep the user in the command
+while true; do
+  clear
+  toilet -f term -F metal "Menu"
+  toilet -f term -F metal "1: Generate Next Question"
+  toilet -f term -F metal "2: Show Clue Shop"
+  toilet -f term -F metal "3: Show Progress"
+  toilet -f term -F metal "4: Leaderboard"
+  toilet -f term -F metal "5: Exit"
+  read -p "Enter Your Choice: " choice
+
+  case $choice in
+    1)
+      generate_random_question
+      ;;
+    2)
+      display_clue_shop
+      ;;
+    3)
+      display_progress
+      ;;
+    4)
+      display_leaderboard
+      ;;
+    5)
+      save_points
+      echo ""
+      toilet -f term -F metal "Thanks For Playing - Lex"
+      echo ""
+      exit 0
+      ;;
+    *)
+      echo "Invalid choice"
+      read -n 1 -s -r -p "Press any key to continue..."
+      ;;
+  esac
+
+  # Pause to allow user to read output before returning to menu
+  read -n 1 -s -r -p "Press any key to continue..."
+done
